@@ -22,7 +22,6 @@ def check_conflict(event_id, resource_id, start_time, end_time):
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    # Check for overlapping events with same resource
     cursor.execute("""
         SELECT 1 FROM event_resource_allocation era
         JOIN events e ON era.event_id = e.event_id
@@ -155,7 +154,7 @@ def delete_resource(resource_id):
 @app.route('/events/<int:event_id>/allocate', methods=['GET', 'POST'])
 def allocate(event_id):
     """Allocate resources to event with conflict checking"""
-    # Get event details
+    
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT * FROM events WHERE event_id = %s", (event_id,))
@@ -167,7 +166,7 @@ def allocate(event_id):
         conn.close()
         return redirect(url_for('events'))
     
-    # Get all resources
+    
     cursor.execute("""
         SELECT r.*, 
                CASE WHEN era.resource_id IS NOT NULL THEN 'Yes' ELSE 'No' END as is_allocated
@@ -180,7 +179,7 @@ def allocate(event_id):
     conn.close()
     
     if request.method == 'POST':
-        # SAFE: Check if resource_id exists in form
+        
         resource_id = request.form.get('resource_id')
         
         if not resource_id:
@@ -188,7 +187,7 @@ def allocate(event_id):
         else:
             resource_id = int(resource_id)
             
-            # Check for time conflicts
+            
             if check_conflict(event_id, resource_id, event['start_time'], event['end_time']):
                 flash('ERROR: Resource already booked during this time!', 'error')
             else:
@@ -201,9 +200,9 @@ def allocate(event_id):
                 conn.commit()
                 cursor.close()
                 conn.close()
-                flash('✅ Resource allocated successfully!')
+                flash('Resource allocated successfully!')
         
-        # Reload page to show updated status
+     
         return redirect(url_for('allocate', event_id=event_id))
     
     return render_template('allocate.html', event=event, resources=resources_list)

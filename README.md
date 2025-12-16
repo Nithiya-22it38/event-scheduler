@@ -9,6 +9,8 @@ Flask application for scheduling events and allocating shared resources with con
 - Resource utilization reports
 
 ## Screenshots
-[Add your screenshots here]
-
+![alt text](<Screenshot (379)-1.png>)
+![alt text](<Screenshot (378).png>)
+![alt text](<Screenshot (377).png>)
+![alt text](<Screenshot (376).png>)
 ## Setup

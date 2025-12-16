@@ -1,4 +1,4 @@
--- Event Scheduling & Resource Allocation System Database
+
 DROP DATABASE IF EXISTS event_scheduler;
 CREATE DATABASE event_scheduler;
 USE event_scheduler;
@@ -26,7 +26,7 @@ CREATE TABLE event_resource_allocation (
     UNIQUE KEY unique_event_resource (event_id, resource_id)
 );
 
--- Sample data
+
 INSERT INTO resources (resource_name, resource_type) VALUES
 ('Conference Room A', 'room'),
 ('Training Room B', 'room'),
