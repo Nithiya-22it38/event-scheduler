@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4>{{ event.title }}</h4>
+                <p class="mb-0">{{ event.start_time.strftime('%Y-%m-%d %H:%M') }} to {{ event.end_time.strftime('%Y-%m-%d %H:%M') }}</p>
+            </div>
+            <div class="card-body">
+                {% if resources %}
+                <form method="POST">
+                    <h5>Select Resource to Allocate:</h5>
+                    {% for resource in resources %}
+                    <div class="form-check mb-3 p-3 border rounded">
+                        <input class="form-check-input" type="radio" 
+                               name="resource_id" 
+                               value="{{ resource.resource_id }}" 
+                               id="r{{ resource.resource_id }}"
+                               required>
+                        <label class="form-check-label w-100" for="r{{ resource.resource_id }}">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>
+                                    <strong>{{ resource.resource_name }}</strong>
+                                    <span class="badge bg-info ms-2">{{ resource.resource_type }}</span>
+                                </span>
+                                {% if resource.is_allocated == 'Yes' %}
+                                    <span class="badge bg-success">Already Allocated</span>
+                                {% endif %}
+                            </div>
+                        </label>
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">Allocate Selected Resource</button>
+                </form>
+                {% else %}
+                <div class="alert alert-warning">No resources available. <a href="/resources">Add resources first</a></div>
+                {% endif %}
+            </div>
+        </div>
+        <a href="/events" class="btn btn-secondary">← Back to Events</a>
+    </div>
+</div>
+{% endblock %}

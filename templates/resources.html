@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between mb-4">
+    <h2>Resources</h2>
+    <a href="/resources/new" class="btn btn-primary">+ Add Resource</a>
+</div>
+<table class="table table-striped">
+    <thead><tr><th>ID</th><th>Name</th><th>Type</th><th>Action</th></tr></thead>
+    {% for resource in resources %}
+    <tr>
+        <td>{{ resource.resource_id }}</td>
+        <td>{{ resource.resource_name }}</td>
+        <td><span class="badge bg-info">{{ resource.resource_type }}</span></td>
+        <td>
+            <form method="POST" action="/resources/{{ resource.resource_id }}/delete" class="d-inline">
+                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4" class="text-center">No resources. <a href="/resources/new">Add one!</a></td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Resource Utilization Report</h2>
+    
+    <form method="POST" class="mb-4 p-4 border rounded">
+        <div class="row">
+            <div class="col-md-5">
+                <label>Start Date:</label>
+                <input type="datetime-local" name="start_date" class="form-control" required>
+            </div>
+            <div class="col-md-5">
+                <label>End Date:</label>
+                <input type="datetime-local" name="end_date" class="form-control" required>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary mt-4 w-100">Generate</button>
+            </div>
+        </div>
+    </form>
+
+    {% if resources %}
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Resource Name</th>
+                <th>Type</th>
+                <th>Bookings</th>
+                <th>Total Hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for resource in resources %}
+            <tr>
+                <td>{{ resource.resource_name }}</td>
+                <td>{{ resource.resource_type }}</td>
+                <td>{{ resource.bookings }}</td>
+                <td>{{ resource.total_hours|default('00:00:00') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert alert-info">
+        Generate report by entering date range above
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

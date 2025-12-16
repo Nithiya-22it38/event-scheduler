@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between mb-4">
+    <h2>Events</h2>
+    <a href="/events/new" class="btn btn-primary">+ New Event</a>
+</div>
+<table class="table table-hover">
+    <thead><tr><th>Title</th><th>Start</th><th>End</th><th>Resources</th><th>Actions</th></tr></thead>
+    {% for event in events %}
+    <tr>
+        <td>{{ event.title }}</td>
+        <td>{{ event.start_time }}</td>
+        <td>{{ event.end_time }}</td>
+        <td>{{ event.resources or 'None' }}</td>
+        <td>
+            <a href="/events/{{ event.event_id }}/allocate" class="btn btn-sm btn-primary">Allocate</a>
+            <form method="POST" action="/events/{{ event.event_id }}/delete" class="d-inline">
+                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" class="text-center">No events. <a href="/events/new">Create one!</a></td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

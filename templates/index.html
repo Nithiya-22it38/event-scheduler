@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron p-5 bg-light rounded">
+    <h1>Event Scheduling System</h1>
+    <p>Schedule events and allocate resources without conflicts</p>
+    <a href="/events" class="btn btn-primary btn-lg">View Events</a>
+    <a href="/resources" class="btn btn-outline-primary btn-lg">View Resources</a>
+</div>
+
+<h3>Recent Events</h3>
+{% if events %}
+<table class="table table-striped">
+    <thead><tr><th>Title</th><th>Time</th><th>Resources</th></tr></thead>
+    {% for event in events %}
+    <tr>
+        <td>{{ event.title }}</td>
+        <td>{{ event.start_time.strftime('%Y-%m-%d %H:%M') }} - {{ event.end_time.strftime('%Y-%m-%d %H:%M') }}</td>
+        <td>{{ event.resources or 'None' }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No recent events</p>
+{% endif %}
+{% endblock %}
